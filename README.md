@@ -5,3 +5,4 @@
 The `Request the page` step has a timeout of 1 minute, which never finishes.
 
 If you remove the `Run wrangler` step, fetching the `index.html` fails right away.
+
