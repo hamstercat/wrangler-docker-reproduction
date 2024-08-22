@@ -4,15 +4,17 @@ jobs:
   docker:
     name: Docker
     runs-on: ubuntu-latest
+    container:
+      image: node:22
     timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Build docker image
-        run: docker build --tag wrangler_reproduction .
-      - name: Run docker
-        run: docker run --name wrangler wrangler_reproduction &
+      - name: Install wrangler
+        run: npm i -g wrangler
+      - name: Run wrangler
+        run: wrangler pages dev /dist --port 3000 &
       - name: Wait for wrangler to be up
         run: sleep 20s
-      - name: Run shell on the docker image
-        run: docker exec -it wrangler curl -v http://localhost:3000/index.html      
+      - name: Request the page
+        run: curl -v http://localhost:3000/index.html
